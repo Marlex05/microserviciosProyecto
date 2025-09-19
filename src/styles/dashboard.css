@@ -1,0 +1,197 @@
+/* Reset y estilos base */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+    position: relative;
+}
+
+/* Botón hamburguesa */
+.hamburger-btn {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem; /* Cambiado a right */
+    z-index: 1000;
+    background: #2433d7ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hamburger-btn:hover {
+    background: #1a2499;
+    transform: scale(1.05);
+}
+
+/* Overlay */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 98;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Barra lateral - AHORA EN LADO DERECHO */
+.sidebar {
+    position: fixed;
+    top: 50%;
+    right: 1rem; /* Cambiado a right */
+    transform: translateY(-50%);
+    background: #2433d7ff;
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    z-index: 99;
+    transition: all 0.3s ease;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-closed {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) translateX(100%); /* Cambiado a translateX(100%) */
+}
+
+.sidebar-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Menú de la barra lateral */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.menu-item {
+    cursor: pointer;
+    margin-bottom: 1rem;
+    color: white;
+    padding: 1.2rem 2rem; /* Más padding para mejor centrado */
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-align: center;
+    min-width: 180px; /* Un poco más ancho */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px; /* Altura fija para mejor alineación */
+}
+
+.menu-item:last-child {
+    margin-bottom: 0;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-5px); /* Cambiado a -5px para lado derecho */
+}
+
+.menu-item.active {
+    background: #1a2499;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    background: rgb(255, 255, 255);
+    padding: 2rem;
+    overflow-y: auto;
+    min-width: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .sidebar {
+        right: 0.5rem; /* Cambiado a right */
+        left: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        max-width: calc(100vw - 1rem);
+    }
+    
+    .sidebar-closed {
+        transform: translateY(-50%) translateX(100%); /* Cambiado a 100% */
+    }
+    
+    .hamburger-btn {
+        top: 1rem;
+        right: 1rem; /* Cambiado a right */
+        padding: 0.5rem;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .menu-item {
+        padding: 1rem 1.5rem;
+        min-width: 140px;
+        height: 50px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Scrollbar personalizado */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Animación suave para la aparición/desaparición del botón */
+.hamburger-btn {
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
