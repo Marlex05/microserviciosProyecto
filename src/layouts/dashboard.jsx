@@ -3,6 +3,7 @@ import Alumnos from "../features/alumnos/alumnos";
 import Profesores from "../features/profesores/profesores";
 import ServiciosEscolares from "../features/serviciosEscolares/serviciosEscolares";
 import RecursosHumanos from "../features/recursosHumanos/recursosHumanos";
+import ChangePassword from "../features/auth/changePassword";
 import "../styles/dashboard.css";
 
 function Dashboard() {
@@ -19,6 +20,8 @@ function Dashboard() {
                 return <ServiciosEscolares />;
             case "Recursos":
                 return <RecursosHumanos />;
+            case "CambioPass":
+                return <ChangePassword />;
             default:
                 return <div>Selecciona una opción</div>;
         }
@@ -83,7 +86,14 @@ function Dashboard() {
                     >
                         Recursos Humanos
                     </li>
+                    <li
+                        onClick={() => { setActive("CambioPass"); setSidebarOpen(false); }}
+                        className={`menu-item ${active === "CambioPass" ? "active" : ""}`}
+                    >
+                        Cambio de contraseña
+                    </li>
                 </ul>
+
             </nav>
 
             {/* Contenedor central */}

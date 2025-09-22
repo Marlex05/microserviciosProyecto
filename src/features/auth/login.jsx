@@ -1,53 +1,36 @@
 import React, { useState } from 'react';
+import { login as loginApi } from '../../services/authApi';
 import '../../styles/login.css';
 
 const Login = ({ onLoginSuccess }) => {
-    const [formData, setFormData] = useState({
-        username: '',
-        password: ''
-    });
+    const [formData, setFormData] = useState({ username: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log("Enviando login:", formData);  // Log antes de enviar
-
         try {
-            const res = await fetch('http://localhost:4000/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            });
+            setLoading(true);
 
-            console.log("Respuesta recibida del backend:", res);
+            const data = await loginApi(formData);
 
-            const data = await res.json();
-            console.log("Data parseada:", data);
-
-            if (res.ok && data.success) {
-                console.log("Login exitoso:", data.user);
-                // Guardamos token y rol en localStorage
+            if (data.success) {
+                // guarda usuario (sin password) y token (si en un futuro lo agregas)
                 localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token || '');
-
-                // Llamamos a la función del App para mostrar Dashboard
                 onLoginSuccess?.();
             } else {
-                console.log("Login fallido:", data.message);
                 alert(data.message || 'Error al iniciar sesión');
-
             }
         } catch (error) {
             console.error('Error en login:', error);
-            alert('Error al conectar con el servidor');
+            alert(error.message || 'Error al conectar con el servidor');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -70,6 +53,7 @@ const Login = ({ onLoginSuccess }) => {
                             onChange={handleChange}
                             placeholder="Ingresa tu usuario"
                             required
+                            disabled={loading}
                         />
                     </div>
 
@@ -84,36 +68,24 @@ const Login = ({ onLoginSuccess }) => {
                                 onChange={handleChange}
                                 placeholder="Ingresa tu contraseña"
                                 required
+                                disabled={loading}
                             />
                             <button
                                 type="button"
                                 className="password-toggle"
                                 onClick={() => setShowPassword(!showPassword)}
+                                disabled={loading}
                             >
                                 {showPassword ? '🙈' : '👁️'}
                             </button>
                         </div>
                     </div>
 
-                    <div className="form-options">
-                        <label className="checkbox-container">
-                            <input type="checkbox" />
-                            <span className="checkmark"></span>
-                            Recordar sesión
-                        </label>
-                        <a href="#forgot" className="forgot-link">
-                            ¿Olvidaste tu contraseña?
-                        </a>
-                    </div>
-
-                    <button type="submit" className="login-button">
-                        Iniciar Sesión
+                    <button type="submit" className="login-button" disabled={loading}>
+                        {loading ? 'Ingresando...' : 'Iniciar Sesión'}
                     </button>
                 </form>
 
-                <div className="login-footer">
-                    <p>¿No tienes una cuenta? <a href="#register">Regístrate</a></p>
-                </div>
             </div>
         </div>
     );

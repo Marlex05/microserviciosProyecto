@@ -3,7 +3,7 @@ import Dashboard from "./layouts/dashboard";
 import Login from "./features/auth/login";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(!!localStorage.getItem("user"));
 
   return (
     <>

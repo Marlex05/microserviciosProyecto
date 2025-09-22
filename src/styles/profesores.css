@@ -1,0 +1,122 @@
+:root {
+  --border: #e5e7eb;
+  --bg: #ffffff;
+  --ink: #111827;
+  --muted: #6b7280;
+  --muted-bg: #f3f4f6;
+}
+
+.prof-wrap {
+  display: grid;
+  gap: 16px;
+  color: var(--ink);
+}
+
+.prof-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.prof-subtitle {
+  color: var(--muted);
+  margin-top: 4px;
+  font-size: 0.95rem;
+}
+
+.prof-badge {
+  background: var(--muted-bg);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.prof-section {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+
+.prof-section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.prof-section-title h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.prof-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+
+.prof-chip {
+  background: var(--muted-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+}
+
+.prof-id { font-size: 0.8rem; }
+
+.prof-table-wrap {
+  overflow: auto;
+  margin-top: 8px;
+}
+
+.prof-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.prof-table thead th {
+  background: var(--muted-bg);
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+}
+
+.prof-table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.prof-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.prof-empty {
+  text-align: center;
+  color: var(--muted);
+}
+
+.prof-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.prof-error {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background: #fff1f2;
+}
