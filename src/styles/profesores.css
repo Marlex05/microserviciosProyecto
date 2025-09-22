@@ -120,3 +120,60 @@
   border-color: #fecaca;
   background: #fff1f2;
 }
+
+.prof-grade-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prof-input-grade {
+  width: 90px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: #111827;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  outline: none;
+}
+.prof-input-grade:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29,78,216,.15);
+}
+.prof-input-grade.is-invalid {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220,38,38,.12);
+}
+
+.prof-hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.prof-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.prof-btn-save {
+  background: #1d4ed8;    /* azul */
+  color: #fff;
+  border: 1px solid #1d4ed8;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter .15s ease, transform .05s ease;
+}
+.prof-btn-save:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.prof-btn-save:hover:not(:disabled) {
+  filter: brightness(.95);
+}
+.prof-btn-save:active:not(:disabled) {
+  transform: translateY(1px);
+}
