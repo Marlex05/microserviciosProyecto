@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Dashboard from "./layouts/dashboard";
 import Login from "./features/auth/login";
+import RH from "./features/recursoshumanos/recursosHumanos"; // importar módulo RH
 
 function App() {
   const [isAuth, setIsAuth] = useState(!!localStorage.getItem("user"));
@@ -8,7 +9,7 @@ function App() {
   return (
     <>
       {isAuth ? (
-        <Dashboard />
+        user?.rol === "rh" ? <RH /> : <Dashboard />
       ) : (
         <Login onLoginSuccess={() => setIsAuth(true)} />
       )}
