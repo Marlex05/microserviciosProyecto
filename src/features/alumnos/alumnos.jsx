@@ -61,7 +61,7 @@ const CambiarPasswordForm = ({ userId }) => {
         </div>
     );
 };
-
+//lol que mal
 // Estilos para el formulario
 const formContainerStyle = { marginTop: '2rem', padding: '2rem', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#f9f9f9' };
 const formTitleStyle = { color: '#333', borderBottom: '2px solid #ddd', paddingBottom: '0.5rem', marginBottom: '1.5rem' };
