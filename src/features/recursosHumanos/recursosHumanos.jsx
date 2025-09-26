@@ -9,7 +9,7 @@ const RH = () => {
   // Traer la lista de profesores al cargar
   const fetchProfesores = async () => {
     try {
-      const res = await fetch("http://localhost:4001/profesores"); // tu puerto RH
+      const res = await fetch("http://10.16.1.117:4001/profesores"); // tu puerto RH
       const data = await res.json();
       setProfesores(data);
     } catch (error) {

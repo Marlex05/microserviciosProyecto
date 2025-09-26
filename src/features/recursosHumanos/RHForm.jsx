@@ -15,7 +15,7 @@ const RHForm = ({ onProfesorAgregado }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:4001/profesores", {
+      const res = await fetch("http://10.16.1.117:4001/profesores", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
