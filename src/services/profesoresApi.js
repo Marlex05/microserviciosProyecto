@@ -1,14 +1,10 @@
-const ACADEMICO = import.meta.env.VITE_ACADEMICO_URL;
+import { http } from './http';
+const BASE = import.meta.env.VITE_PROFESORES_URL;
 
-async function httpGet(path) {
-  const res = await fetch(`${ACADEMICO}${path}`);
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.message || `Error ${res.status}`);
-  return data;
-}
-
-export const getProfesorByUserId = (userId) =>
-  httpGet(`/profesores/by-user/${userId}`);
+// Mantén el nombre de función que ya usa tu componente,
+// pero ahora envía :idUsuario en la URL
+export const getProfesorByUserId = (idUsuario) =>
+  http(`${BASE}/profesores/by-user/${idUsuario}`);
 
 export const getGruposByProfesor = (profesorId) =>
-  httpGet(`/profesores/${profesorId}/grupos`);
+  http(`${BASE}/profesores/${profesorId}/grupos`);
