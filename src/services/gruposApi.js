@@ -1,19 +1,17 @@
-const ACADEMICO = import.meta.env.VITE_ACADEMICO_URL;
+// src/services/gruposApi.js
+import { http } from './http';
+
+// Usa el MISMO backend que Profesores
+const BASE = import.meta.env.VITE_PROFESORES_URL;
 
 export async function getAlumnosDeGrupo(grupoId) {
-  const r = await fetch(`${ACADEMICO}/grupos/${grupoId}/alumnos`);
-  const data = await r.json().catch(()=> ({}));
-  if (!r.ok) throw new Error(data.message || `Error ${r.status}`);
-  return data;
+  return http(`${BASE}/grupos/${grupoId}/alumnos`);
 }
 
+// Asegúrate que coincida con tu backend (PATCH y ruta /calificaciones/:alumnoId)
 export async function setCalificacion(grupoId, alumnoId, body) {
-  const r = await fetch(`${ACADEMICO}/grupos/${grupoId}/alumnos/${alumnoId}/calificacion`, {
-    method: "PUT",
-    headers: { "Content-Type":"application/json" },
-    body: JSON.stringify(body),
+  return http(`${BASE}/grupos/${grupoId}/calificaciones/${alumnoId}`, {
+    method: 'PATCH',
+    body,
   });
-  const data = await r.json().catch(()=> ({}));
-  if (!r.ok) throw new Error(data.message || `Error ${r.status}`);
-  return data;
 }

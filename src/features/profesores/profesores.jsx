@@ -23,39 +23,37 @@ export default function Profesores() {
         setLoading(true);
         setErr("");
 
-        // 🔒 ahora solo validamos idUsuario
+        // ✅ Solo validamos idUsuario
         if (!session?.idUsuario) {
           setErr("No hay sesión activa.");
           return;
         }
 
-        // 1) profesor por idUsuario
+        // 1) Profesor por idUsuario
         const prof = await getProfesorByUserId(session.idUsuario);
         setProfesor(prof);
 
-        // 2) grupos del profesor
+        // 2) Grupos del profesor → normalizamos id a string sin espacios
         const gs = await getGruposByProfesor(prof.id);
-        setGrupos(gs);
+        const gruposNorm = (gs || []).map(g => ({ ...g, id: String(g.id).trim() }));
+        setGrupos(gruposNorm);
 
-        // 3) alumnos por grupo (blindado: siempre arreglo)
+        // 3) Alumnos por grupo (guardamos con la MISMA clave gid = g.id)
         const entries = await Promise.all(
-          gs.map(async (g) => {
-            try {
-              const alumnos = await getAlumnosDeGrupo(g.id);
-              return [g.id, Array.isArray(alumnos) ? alumnos : []];
-            } catch {
-              return [g.id, []];
-            }
+          gruposNorm.map(async (g) => {
+            const gid = g.id; // ya normalizado
+            const alumnos = await getAlumnosDeGrupo(gid);
+            return [gid, Array.isArray(alumnos) ? alumnos : []];
           })
         );
         setAlumnosByGrupo(Object.fromEntries(entries));
+
       } catch (e) {
         setErr(e.message || "Error cargando datos");
       } finally {
         setLoading(false);
       }
     })();
-  // 👇 dependemos de idUsuario (no de id)
   }, [session?.idUsuario]);
 
   function getEditedValue(grupoId, alumno) {
@@ -138,10 +136,11 @@ export default function Profesores() {
         <div className="prof-card">No tienes grupos asignados.</div>
       ) : (
         grupos.map((g) => {
-          // 🛡️ siempre usa arreglo para no romper el render
-          const alumnos = Array.isArray(alumnosByGrupo[g.id]) ? alumnosByGrupo[g.id] : [];
+          const gid = g.id; // ya normalizado al setearlos
+          const alumnos = Array.isArray(alumnosByGrupo[gid]) ? alumnosByGrupo[gid] : [];
+
           return (
-            <section key={g.id} className="prof-section">
+            <section key={gid} className="prof-section">
               <div className="prof-section-title">
                 <h2>{g.nombre}</h2>
                 <div className="prof-meta">
@@ -167,9 +166,11 @@ export default function Profesores() {
                       </tr>
                     ) : (
                       alumnos.map((a) => {
-                        const val = getEditedValue(g.id, a);
-                        const status = saving?.[g.id]?.[a.alumnoId] || "idle";
-                        const invalid = val !== "" && (Number(val) < 0 || Number(val) > 10 || !Number.isFinite(Number(val)));
+                        const val = getEditedValue(gid, a);
+                        const status = saving?.[gid]?.[a.alumnoId] || "idle";
+                        const invalid =
+                          val !== "" &&
+                          (Number(val) < 0 || Number(val) > 10 || !Number.isFinite(Number(val)));
 
                         return (
                           <tr key={a.alumnoId}>
@@ -186,7 +187,7 @@ export default function Profesores() {
                                   inputMode="decimal"
                                   value={val}
                                   placeholder="—"
-                                  onChange={(e) => setEditedValue(g.id, a.alumnoId, e.target.value)}
+                                  onChange={(e) => setEditedValue(gid, a.alumnoId, e.target.value)}
                                 />
                                 <span className="prof-hint">0–10</span>
                               </div>
@@ -196,7 +197,7 @@ export default function Profesores() {
                                 <button
                                   className="prof-btn-save"
                                   disabled={status === "saving" || invalid || val === ""}
-                                  onClick={() => handleSave(g.id, a)}
+                                  onClick={() => handleSave(gid, a)}
                                   title="Guardar calificación"
                                 >
                                   {status === "saving" ? "Guardando…" : status === "saved" ? "Guardado ✓" : "Guardar"}
