@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createProfesor } from '../../services/rhApi';
 
 const RHForm = ({ onProfesorAgregado }) => {
   const [formData, setFormData] = useState({
@@ -15,23 +16,19 @@ const RHForm = ({ onProfesorAgregado }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://10.16.1.117:4001/profesores", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success) {
+      const res = await createProfesor(formData);
+      // res puede ser { success:true, data: { profesor, user } }
+      if (res?.success) {
         alert("Profesor registrado con éxito");
-        onProfesorAgregado(data.profesor);
+        const prof = res.data?.profesor ?? res.data ?? res;
+        onProfesorAgregado(prof);
         setFormData({ nombre: "", puesto: "profesor", username: "", password: "" });
       } else {
-        alert(data.message || "Error al registrar profesor");
+        alert(res?.error || res?.message || "Error al registrar profesor");
       }
     } catch (error) {
       console.error("Error al registrar profesor:", error);
-      alert("Error al conectar con el servidor");
+      alert(error.message || "Error al conectar con el servidor");
     }
   };
 
